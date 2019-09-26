@@ -3,16 +3,18 @@ import { connect } from 'mongoose'
 import { ApolloServer, makeExecutableSchema } from 'apollo-server'
 import { buildSchema } from 'type-graphql'
 import { mergeResolvers, mergeTypeDefs, mergeSchemas } from 'graphql-toolkit'
-import { PORT, MONGO_HOST, DB_NAME } from './modules/common/consts'
+import { PORT, MONGO_HOST, DB_NAME } from './modules/common/consts' // 获取数据库配置
 import UserResolver from './modules/user/UserResolver'
 import { authChecker } from './modules/user/authChecker'
 import { setUpAccounts } from './modules/user/accounts'
 import { TypegooseMiddleware } from './middleware/typegoose'
 ;(async () => {
+  // connect 返回一个mongoose的实例
   const mongooseConnection = await connect(
     `mongodb://${MONGO_HOST || 'localhost'}:27017/${DB_NAME}`,
     { useNewUrlParser: true }
   )
+
   const { accountsGraphQL, accountsServer } = setUpAccounts(mongooseConnection.connection)
 
   const typeGraphqlSchema = await buildSchema({

@@ -7,3 +7,5 @@ yarn-error.log*
 
 # config
 /config/local.json
+
+/**/node_modules
